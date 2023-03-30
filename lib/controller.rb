@@ -1,10 +1,8 @@
 # fronzen_string_literal: true
 
-require_relative 'helpers'
-
 # class for the game controller
 class Controller
-  attr_accessor :position
+  attr_accessor :position, :selected
 
   KEYMAP = {
     ' ' => :space,
@@ -25,18 +23,27 @@ class Controller
     down: [1, 0]
   }.freeze
 
-  def initialize(pos = [0, 0])
+  def initialize(pos = [0, 1], selected = nil, player = 1)
     @position = pos
+    @selected = selected
+    @player = player
   end
 
-  def handle_input
+  def handle_input(pieces)
     input = user_input
     key = KEYMAP[input]
     update_position(MOVES[key]) if [:left, :right, :up, :down].include?(key)
+    select_piece(pieces) if key == :space
   end
 
   def update_position(move)
     @position[0] = @position[0] + move[0] if (@position[0] + move[0]).between?(0, 7)
     @position[1] = @position[1] + move[1] if (@position[1] + move[1]).between?(0, 7)
+  end
+
+  def select_piece(pieces)
+    piece = Piece.piece_at(@position, pieces)
+    Display.message("Invaild move! select pieces of player #{@player}") if piece.nil? || piece.player != @player
+    @selected = piece unless piece.nil? || piece.player != @player
   end
 end
