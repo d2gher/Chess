@@ -8,8 +8,12 @@ board = Board.new
 curser = Controller.new
 pieces = []
 
-pieces << Piece.new([0, 1], 1)
-pieces << Piece.new([0, 2], 2)
+# pieces << Bishop.new([4, 4], 1)
+# pieces << Pawn.new([3, 4], 1)
+# pieces << Pawn.new([3, 6], 2)
+pieces << Queen.new([3, 6], 1)
+pieces << Queen.new([3, 3], 2)
+pieces << King.new([3, 1], 1)
 
 loop do
   grid = board.build_board(curser, pieces)

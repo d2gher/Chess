@@ -1,6 +1,6 @@
 # fronzen_string_literal: true
 
-require "io/console"
+require 'io/console'
 
 def user_input
   $stdin.echo = false

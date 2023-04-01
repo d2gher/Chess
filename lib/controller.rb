@@ -23,7 +23,7 @@ class Controller
     down: [1, 0]
   }.freeze
 
-  def initialize(pos = [0, 1], selected = nil, player = 1)
+  def initialize(pos = [0, 0], selected = nil, player = 1)
     @position = pos
     @selected = selected
     @player = player
@@ -32,8 +32,13 @@ class Controller
   def handle_input(pieces)
     input = user_input
     key = KEYMAP[input]
-    update_position(MOVES[key]) if [:left, :right, :up, :down].include?(key)
-    select_piece(pieces) if key == :space
+    return update_position(MOVES[key]) if [:left, :right, :up, :down].include?(key)
+
+    if !@selected.nil? && key == :space && @selected.piece_moves(pieces).include?(position)
+      move_piece(pieces)
+    elsif key == :space
+      select_piece(pieces)
+    end
   end
 
   def update_position(move)
@@ -42,8 +47,15 @@ class Controller
   end
 
   def select_piece(pieces)
-    piece = Piece.piece_at(@position, pieces)
-    Display.message("Invaild move! select pieces of player #{@player}") if piece.nil? || piece.player != @player
+    piece = Board.piece_at(@position, pieces)
+    Display.message("Invaild move! Select pieces of player #{@player}") if piece.nil? || piece.player != @player
     @selected = piece unless piece.nil? || piece.player != @player
+  end
+
+  def move_piece(pieces)
+    Board.apply_movement(@position, pieces, @selected)
+    @player = @player == 1 ? 2 : 1
+    @selected = nil
+    Display.message("Player's #{@player} move!")
   end
 end
