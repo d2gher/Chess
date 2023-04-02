@@ -14,7 +14,7 @@ class Display
     puts ''
     board.each do |row|
       print '|'
-      puts row.join
+      print row.join
       puts '|'
     end
     puts ''
