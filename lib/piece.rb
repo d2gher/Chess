@@ -7,9 +7,9 @@ class Piece
   def initialize; end
 
   def piece_color(player)
-    return :light_black if player == 1
+    return :white if player == 1
 
-    :white
+    :light_black
   end
 
   def valid_move?(dest, pieces, player)
@@ -39,6 +39,31 @@ class Piece
       end
     end
     possible_moves
+  end
+
+  def self.set
+    pieces = []
+    8.times do |row|
+      8.times do |col|
+        pieces << Pawn.new([row, col], 1) if row == 6
+        pieces << Pawn.new([row, col], 2) if row == 1
+        if row == 7
+          pieces << Rook.new([row, col], 1) if [0, 7].include?(col)
+          pieces << Knight.new([row, col], 1) if [1, 6].include?(col)
+          pieces << Bishop.new([row, col], 1) if [2, 5].include?(col)
+          pieces << Queen.new([row, col], 1) if col == 3
+          pieces << King.new([row, col], 1) if col == 4
+        end
+        if row.zero?
+          pieces << Rook.new([row, col], 2) if [0, 7].include?(col)
+          pieces << Knight.new([row, col], 2) if [1, 6].include?(col)
+          pieces << Bishop.new([row, col], 2) if [2, 5].include?(col)
+          pieces << Queen.new([row, col], 2) if col == 3
+          pieces << King.new([row, col], 2) if col == 4
+        end
+      end
+    end
+    pieces
   end
 end
 
@@ -155,7 +180,7 @@ class King < Piece
   MOVES = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]].freeze
 
   def initialize(pos, player)
-    @symbol = ' ♛ '.colorize(color: piece_color(player))
+    @symbol = ' ♚ '.colorize(color: piece_color(player))
     @position = pos
     @player = player
   end

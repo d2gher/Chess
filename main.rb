@@ -1,25 +1,20 @@
-require_relative 'lib/helpers'
-require_relative 'lib/board'
-require_relative 'lib/display'
-require_relative 'lib/controller'
-require_relative 'lib/piece'
+require_relative 'lib/game'
 
-board = Board.new
-curser = Controller.new
-pieces = []
-
-# pieces << Bishop.new([4, 4], 1)
-# pieces << Pawn.new([3, 4], 1)
-# pieces << Pawn.new([3, 6], 2)
-pieces << Queen.new([3, 6], 1)
-pieces << Queen.new([3, 3], 2)
-pieces << King.new([3, 1], 1)
-
+Display.start_screen
 loop do
-  grid = board.build_board(curser, pieces)
-  Display.print_board(grid)
-  Display.announce_winner(Board.winner) if Board.winner
-  break if Board.winner
-  
-  curser.handle_input(pieces)
+  option = 0
+  option = gets.chomp.to_i until [1, 2].include?(option)
+
+  # New game
+  game = Game.new if option == 1
+
+  # Load game
+  if option == 2
+    curser = load_curser
+    pieces = load_pieces
+
+    game = Game.new(curser, pieces)
+  end
+
+  game.start
 end

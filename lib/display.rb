@@ -10,6 +10,8 @@ class Display
 
   def self.print_board(board)
     system('clear')
+    puts "#{'Controls:'.bold} \nUse [AWDS] or arrow keys to move,\n[space] to select, [q] to quit, and [k] to save"
+    puts ''
     board.each do |row|
       puts row.join
     end
@@ -22,13 +24,35 @@ class Display
   end
 
   def self.announce_winner(winner)
-    message = "Player #{winner} has won!!!!"
+    message = "Player #{winner} has won!!!!".bold.green
     sleep 1
-    puts ('-' * message.length).to_s
+    puts ('-' * "Player #{winner} has won!!!!".length).to_s
     sleep 1
     puts message
     sleep 1
-    puts "#{'-' * message.length}\n"
+    puts "#{'-' * "Player #{winner} has won!!!!".length}\n"
     sleep 1
+  end
+
+  def self.start_screen
+    system('clear')
+    puts title
+    puts "
+#{'1. New game'.bold}
+#{'2. Load saved game'.bold}
+    "
+  end
+
+  def self.title
+    "
+▄████████    ▄█    █▄       ▄████████    ▄████████    ▄████████
+███    ███   ███    ███     ███    ███   ███    ███   ███    ███
+███    █▀    ███    ███     ███    █▀    ███    █▀    ███    █▀
+███         ▄███▄▄▄▄███▄▄  ▄███▄▄▄       ███          ███
+███        ▀▀███▀▀▀▀███▀  ▀▀███▀▀▀     ▀███████████ ▀███████████
+███    █▄    ███    ███     ███    █▄           ███          ███
+███    ███   ███    ███     ███    ███    ▄█    ███    ▄█    ███
+████████▀    ███    █▀      ██████████  ▄████████▀   ▄████████▀
+    "
   end
 end

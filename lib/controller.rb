@@ -2,7 +2,7 @@
 
 # class for the game controller
 class Controller
-  attr_accessor :position, :selected
+  attr_accessor :position, :selected, :player
 
   KEYMAP = {
     ' ' => :space,
@@ -13,7 +13,8 @@ class Controller
     "\e[A" => :up,
     "\e[B" => :down,
     "\e[C" => :right,
-    "\e[D" => :left
+    "\e[D" => :left,
+    'k' => :save
   }.freeze
 
   MOVES = {
@@ -33,6 +34,8 @@ class Controller
     input = user_input
     key = KEYMAP[input]
     return update_position(MOVES[key]) if [:left, :right, :up, :down].include?(key)
+
+    save_and_exit(self, pieces) if key == :save
 
     if !@selected.nil? && key == :space && @selected.piece_moves(pieces).include?(position)
       move_piece(pieces)
