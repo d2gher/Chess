@@ -13,7 +13,9 @@ class Display
     puts "#{'Controls:'.bold} \nUse [AWDS] or arrow keys to move,\n[space] to select, [q] to quit, and [k] to save"
     puts ''
     board.each do |row|
+      print '|'
       puts row.join
+      puts '|'
     end
     puts ''
     puts @message
