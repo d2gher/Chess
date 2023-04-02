@@ -18,5 +18,8 @@ pieces << King.new([3, 1], 1)
 loop do
   grid = board.build_board(curser, pieces)
   Display.print_board(grid)
+  Display.announce_winner(Board.winner) if Board.winner
+  break if Board.winner
+  
   curser.handle_input(pieces)
 end

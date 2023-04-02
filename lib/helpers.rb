@@ -8,7 +8,7 @@ def user_input
 
   input = $stdin.getc.chr
 
-  input << STDIN.read_nonblock(3) if input == "\e" rescue nil 
+  input << $stdin.read_nonblock(3) if input == "\e" rescue nil 
 
   exit 0 if ["\u0003", 'q'].include?(input)
   input

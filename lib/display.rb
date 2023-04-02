@@ -17,11 +17,18 @@ class Display
     puts @message
   end
 
-  def self.invalid_move
-    puts 'Invalid move! try again'
-  end
-
   def self.message(message)
     @message = message
+  end
+
+  def self.announce_winner(winner)
+    message = "Player #{winner} has won!!!!"
+    sleep 1
+    puts ('-' * message.length).to_s
+    sleep 1
+    puts message
+    sleep 1
+    puts "#{'-' * message.length}\n"
+    sleep 1
   end
 end

@@ -56,6 +56,10 @@ class Controller
     Board.apply_movement(@position, pieces, @selected)
     @player = @player == 1 ? 2 : 1
     @selected = nil
+
+    Display.message('') if Board.winner
+    return if Board.winner
+
     Display.message("Player's #{@player} move!")
   end
 end

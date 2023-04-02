@@ -4,6 +4,8 @@ require 'colorize'
 
 # class responsible for the board
 class Board
+  @winner = nil
+
   def initialize
     @empty_board = create_empty_board
   end
@@ -23,6 +25,22 @@ class Board
     nil
   end
 
+  def self.apply_movement(position, pieces, piece)
+    piece.first_move = false if piece.is_a?(Pawn)
+    target = piece_at(position, pieces)
+
+    @winner = piece.player if target.is_a?(King)
+
+    pieces.delete(target) unless target.nil?
+
+    piece.position[0] = position[0]
+    piece.position[1] = position[1]
+  end
+
+  def self.winner
+    @winner
+  end
+  
   private
 
   def create_empty_board
@@ -65,15 +83,5 @@ class Board
       pos2 = piece.position[1]
       board[pos1][pos2] = piece.symbol.colorize(background: bg_color(pos1, pos2))
     end
-  end
-
-  def self.apply_movement(position, pieces, piece)
-    piece.first_move = false if piece.is_a?(Pawn)
-    target = piece_at(position, pieces)
-    unless target.nil?
-      pieces.delete(target)
-    end
-    piece.position[0] = position[0]
-    piece.position[1] = position[1]
   end
 end
